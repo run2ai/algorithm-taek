@@ -30,7 +30,5 @@ for i in range(S - P + 1):
     if i < S - P:
         cnt_list[idx_dict[dna[i]]] -= 1
         cnt_list[idx_dict[dna[i + P]]] += 1
-# print(cnt_list, dna[i:i + P], ans)
-# if all([cnt >= min_num for cnt, min_num in zip(cnt_list, min_nums)]):
-#     ans += 1
+
 print(ans)
