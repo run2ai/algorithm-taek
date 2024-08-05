@@ -1,34 +1,38 @@
 # https://www.acmicpc.net/problem/13023
 
 import sys
-
+from sys import stdin as s
 sys.setrecursionlimit(10**6)
-input = sys.stdin.readline
 
-# dfs 함수
-def dfs(graph, v, visited, cnt):
-    visited[v] = True
-    if cnt == 4:
-        return 4
+result = 0
+n, m = map(int, s.readline().split())
+network = [[] for _ in range(n)]
+visited = [False] * n
+
+for _ in range(m):
+    a,b = map(int, s.readline().split())
+    network[a].append(b)
+    network[b].append(a)
+
+def dfs(start, cnt):
+    global result
+    visited[start] = True
+    cnt +=1
     
-    for i in graph[v]:
-        if not visited[i]:
-            cnt += 1
-            dfs(graph, i, visited, cnt)
-
-n, m = map(int, input().split()) # 정점의 개수, 간선의 개수
-graph = [[] for _ in range(n+1)]
-for i in range(m):
-    u, v = map(int, input().split())
-    graph[u].append(v)
-    graph[v].append(u)
-
-count = 0 # 연결 노드의 수
-visited = [False] * (n+1)
-for i in range(1, n+1):
-    if not visited[i]:
-        cnt = 0
-        cnt = dfs(graph, i, visited, cnt)
-        count += 1 # dfs 한 번 끝날 때마다 count+1
-        print(cnt)
-print(count)
+    if  cnt == 5:
+        result = 1
+        return 
+    
+    for f in network[start]:
+        if visited[f] == False :
+            visited[f] = True
+            dfs(f, cnt)
+            
+    visited[start] = False
+    
+for i in range(n):
+    if result == 1 :
+        break
+    dfs(i, 0)
+    
+print(result)
